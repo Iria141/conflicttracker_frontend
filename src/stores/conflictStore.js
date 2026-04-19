@@ -27,13 +27,19 @@ const filteredConflicts = computed(() => {
     error.value = null
 
     try {
-      const response = await fetch('http://localhost:8080/api/v1/conflicts')
+      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1'
+      const response = await fetch(`${API_BASE}/conflicts`)
 
       if (!response.ok) {
         throw new Error('Error al obtener los conflictos')
       }
 
       const data = await response.json()
+
+      if (!Array.isArray(data)) {
+        throw new Error('La respuesta de la API no es válida')
+      }
+
       conflicts.value = data
     } catch (err) {
       error.value = 'Error al cargar conflictos'

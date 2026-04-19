@@ -11,8 +11,8 @@ const lenguajeStore = useLanguageStore()
 onMounted(async () => {
   const id = route.params.id
 
-  const response = await fetch(`http://localhost:8080/api/v1/conflicts/${id}`)
-  const data = await response.json()
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1'
+const response = await fetch(`${API_BASE}/conflicts/${id}`)  const data = await response.json()
 
   conflict.value = data
 })
@@ -93,9 +93,7 @@ const translateStatus = (estado) => {
 
     <p v-else>{{ lenguajeStore.t.detailsLoading }}</p>
 
-    <button class="back-button" @click="router.push('/')">
-      ← {{ lenguajeStore.t.back }}
-    </button>
+    <button class="back-button" @click="router.push('/')">← {{ lenguajeStore.t.back }}</button>
   </div>
 </template>
 
@@ -203,5 +201,4 @@ const translateStatus = (estado) => {
   border: 1px solid #ccc;
   cursor: pointer;
 }
-
 </style>
